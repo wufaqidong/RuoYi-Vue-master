@@ -226,6 +226,7 @@ public class ExcelUtil<T>
         this.title = title;
         createExcelField();
         createWorkbook();
+        // StringUtils.EMPTY这个是Excel表第一行的标题
         createTitle();
         createSubHead();
     }
@@ -521,6 +522,7 @@ public class ExcelUtil<T>
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName)
     {
+        // StringUtils.EMPTY这个是Excel表第一行的标题
         exportExcel(response, list, sheetName, StringUtils.EMPTY);
     }
 
@@ -535,8 +537,11 @@ public class ExcelUtil<T>
      */
     public void exportExcel(HttpServletResponse response, List<T> list, String sheetName, String title)
     {
+        // application/vnd.openxmlformats-officedocument.spreadsheetml.sheet这个是Excel的类型，不同的类型对应不同的后缀名
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setCharacterEncoding("utf-8");
+        // 初始化
+        // Type.EXPORT这个是导出的类型，导出的类型有两种，一种是导出，一种是导入，@Excel注解中的exportType属性就是用来区分这两种类型的
         this.init(list, sheetName, title, Type.EXPORT);
         exportExcel(response);
     }
@@ -665,6 +670,7 @@ public class ExcelUtil<T>
                     for (Field subField : subFields)
                     {
                         Excel subExcel = subField.getAnnotation(Excel.class);
+                        // 拿到值，写到对应的行和列中去
                         this.createHeadCell(subExcel, row, column++);
                     }
                 }
@@ -693,6 +699,7 @@ public class ExcelUtil<T>
         int startNo = index * sheetSize;
         int endNo = Math.min(startNo + sheetSize, list.size());
         int rowNo = (1 + rownum) - startNo;
+        // 所有要导出的行数
         for (int i = startNo; i < endNo; i++)
         {
             rowNo = isSubList() ? (i > 1 ? rowNo + 1 : rowNo + i) : i + 1 + rownum - startNo;
@@ -1478,12 +1485,13 @@ public class ExcelUtil<T>
     }
 
     /**
-     * 创建一个工作簿
+     * 创建一个工作簿，创建整个Excel文档
      */
     public void createWorkbook()
     {
         this.wb = new SXSSFWorkbook(500);
         this.sheet = wb.createSheet();
+        // 设置第一个工作表的名称.
         wb.setSheetName(0, sheetName);
         this.styles = createStyles(wb);
     }

@@ -43,6 +43,7 @@ public class SysDictTypeController extends BaseController
         return getDataTable(list);
     }
 
+    // 导出功能实现
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPermi('system:dict:export')")
     @PostMapping("/export")

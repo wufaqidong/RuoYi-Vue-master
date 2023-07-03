@@ -38,6 +38,14 @@ public class SysUserOnlineController extends BaseController
     @Autowired
     private RedisCache redisCache;
 
+    /**
+     @PreAuthorize("@ss.hasPermi('monitor:online:list')")是Spring Security中的一个注解，用于在方法执行前进行权限检查。
+     这个注解表示只有当用户具有monitor:online:list这个权限时，才能执行被@PreAuthorize注解的方法。这里的@ss是一个自定义的Spring Security配置类，其中的hasPermi方法用于判断用户是否具有某个特定的权限。
+     具体解释如下：
+     @PreAuthorize:这是一个预授权注解，用于在方法执行前进行权限检查。如果用户没有相应的权限，那么将抛出异常(如UnauthorizedException),从而阻止方法的执行。
+     "monitor:online:list":这是要检查的权限字符串。在这个例子中，我们检查用户是否具有访问在线用户的列表的权限。
+     @ss.hasPermi('monitor:online:list'):这是一个自定义的hasPermi方法，用于判断用户是否具有指定的权限。你需要在自定义的Spring Security配置类中实现这个方法，
+    */
     @PreAuthorize("@ss.hasPermi('monitor:online:list')")
     @GetMapping("/list")
     public TableDataInfo list(String ipaddr, String userName)
@@ -64,7 +72,9 @@ public class SysUserOnlineController extends BaseController
                 userOnlineList.add(userOnlineService.loginUserToUserOnline(user));
             }
         }
+        // 将 userOnlineList 中的元素顺序反转
         Collections.reverse(userOnlineList);
+        // 移除 userOnlineList 中的 null 元素
         userOnlineList.removeAll(Collections.singleton(null));
         return getDataTable(userOnlineList);
     }
