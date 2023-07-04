@@ -110,6 +110,7 @@ public class TokenService
     {
         String token = IdUtils.fastUUID();
         loginUser.setToken(token);
+        // 设置用户代理信息
         setUserAgent(loginUser);
         refreshToken(loginUser);
 
@@ -141,10 +142,13 @@ public class TokenService
      */
     public void refreshToken(LoginUser loginUser)
     {
+        // 设置登录时间
         loginUser.setLoginTime(System.currentTimeMillis());
+        // 设置有效期
         loginUser.setExpireTime(loginUser.getLoginTime() + expireTime * MILLIS_MINUTE);
-        // 根据uuid将loginUser缓存
+        // 根据value获取key
         String userKey = getTokenKey(loginUser.getToken());
+        // 根据uuid将loginUser缓存
         redisCache.setCacheObject(userKey, loginUser, expireTime, TimeUnit.MINUTES);
     }
 
