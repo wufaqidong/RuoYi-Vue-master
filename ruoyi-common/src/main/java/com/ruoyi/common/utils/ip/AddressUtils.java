@@ -22,8 +22,10 @@ public class AddressUtils
     public static final String IP_URL = "http://whois.pconline.com.cn/ipJson.jsp";
 
     // 未知地址
+    // 获取地址
     public static final String UNKNOWN = "XX XX";
 
+    // 根据ip获取地址
     public static String getRealAddressByIP(String ip)
     {
         // 内网不查询
@@ -31,6 +33,7 @@ public class AddressUtils
         {
             return "内网IP";
         }
+        // 查看获取ip是否开启，获取真实的地理位置
         if (RuoYiConfig.isAddressEnabled())
         {
             try

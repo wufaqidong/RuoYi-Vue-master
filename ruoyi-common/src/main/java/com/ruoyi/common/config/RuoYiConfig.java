@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
  * @author ruoyi
  */
 @Component
+// 从配置中读取属性值，prefix表示前缀，例如ruoyi.name
 @ConfigurationProperties(prefix = "ruoyi")
 public class RuoYiConfig
 {
