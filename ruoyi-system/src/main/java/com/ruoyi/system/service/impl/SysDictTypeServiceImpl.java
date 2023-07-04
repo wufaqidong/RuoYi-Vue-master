@@ -34,6 +34,12 @@ public class SysDictTypeServiceImpl implements ISysDictTypeService
 
     /**
      * 项目启动时，初始化字典到缓存
+     *
+     * @PostConstruct是Java EE(现在称为Jakarta EE)中的一个注解，用于标记在依赖关系注入完成后需要执行的方法。
+     * 这个方法通常用于初始化组件或资源，例如数据库连接、配置文件加载等。
+     *
+     * 当Spring容器完成所有bean的实例化和依赖注入后，会自动调用带有@PostConstruct注解的方法。这意味着你可以在这些方法中访问到所有的bean,包括其他被注入的bean。
+     *
      */
     @PostConstruct
     public void init()
