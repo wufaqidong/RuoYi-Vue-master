@@ -25,6 +25,7 @@ import com.ruoyi.framework.security.handle.LogoutSuccessHandlerImpl;
  * 
  * @author ruoyi
  */
+// 这个类需要自己写
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
@@ -55,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     /**
      * 跨域过滤器
      */
+    // 跨域过滤器
     @Autowired
     private CorsFilter corsFilter;
 
@@ -70,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      * @return
      * @throws Exception
      */
+    // 解决 无法直接注入 AuthenticationManager
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception
@@ -124,7 +127,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // 添加CORS filter
-        httpSecurity.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class);
+        // 在jwt之前添加了跨域过滤器，下面这行的跨域可以删除，因为总共加了两个跨域过滤器
+//        httpSecurity.addFilterBefore(corsFilter, JwtAuthenticationTokenFilter.class);
         httpSecurity.addFilterBefore(corsFilter, LogoutFilter.class);
     }
 

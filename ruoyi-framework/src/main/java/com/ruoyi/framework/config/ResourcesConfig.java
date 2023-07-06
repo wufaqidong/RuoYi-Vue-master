@@ -51,6 +51,7 @@ public class ResourcesConfig implements WebMvcConfigurer
     /**
      * 跨域配置
      */
+    // 跨域过滤器配置
     @Bean
     public CorsFilter corsFilter()
     {
